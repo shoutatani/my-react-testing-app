@@ -1,3 +1,6 @@
+# my-react-testing-app
+This is the repository what I learned about react.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
