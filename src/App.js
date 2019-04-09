@@ -65,8 +65,8 @@ class TodoInput extends React.Component {
   render() {
     return (
       <div>
-        <input placeholder="新規TODOを入力してください" onChange={this.props.onChange} />
-        <button onClick={this.props.onClick}>登録</button>
+        <input placeholder="新規TODOを入力してください" onChange={(e) => this.props.onChange(e)} />
+        <button onClick={() => this.props.onClick()}>登録</button>
       </div>
     );
   }
