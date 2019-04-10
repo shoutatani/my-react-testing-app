@@ -8,8 +8,8 @@ class App extends Component {
     this.state = {
       tasks: [],
       unique_id: 0,
-      input: "",
-    }
+      input: ""
+    };
   }
 
   onChange(e) {
@@ -31,6 +31,7 @@ class App extends Component {
     this.setState({
       tasks: tasks,
       unique_id: unique_id + 1,
+      input: ""
     });
   }
 
@@ -43,7 +44,11 @@ class App extends Component {
     return (
       <div>
         <h1>TODO App</h1>
-        <TodoInput onClick={() => this.addTodo()} onChange={(e) => this.onChange(e)} />
+        <TodoInput
+          onClick={() => this.addTodo()}
+          onChange={e => this.onChange(e)}
+          input={this.state.input}
+        />
         <TodoList tasks={this.state.tasks} />
       </div>
       // <React.Fragment>
@@ -65,7 +70,11 @@ class TodoInput extends React.Component {
   render() {
     return (
       <div>
-        <input placeholder="新規TODOを入力してください" onChange={(e) => this.props.onChange(e)} />
+        <input
+          placeholder="新規TODOを入力してください"
+          onChange={e => this.props.onChange(e)}
+          value={this.props.input}
+        />
         <button onClick={() => this.props.onClick()}>登録</button>
       </div>
     );
@@ -75,7 +84,7 @@ class TodoInput extends React.Component {
 class TodoList extends React.Component {
   render() {
     const list = this.props.tasks.map(task => {
-      return <TodoItem {...task} key={task.id} />
+      return <TodoItem {...task} key={task.id} />;
     });
     return (
       <div>
