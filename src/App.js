@@ -5,86 +5,70 @@ import PropTypes from "prop-types";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      tasks: [],
-      unique_id: 0,
-      input: ""
-    };
-  }
-
-  onChange(e) {
-    const value = e.target.value;
-    this.setState({
-      input: value
-    });
-  }
-
-  addTodo() {
-    const tasks = this.state.tasks;
-    const unique_id = this.state.unique_id;
-
-    tasks.push({
-      title: this.state.input,
-      id: unique_id
-    });
-
-    this.setState({
-      tasks: tasks,
-      unique_id: unique_id + 1,
-      input: ""
-    });
   }
 
   render() {
-    // const Dan = <SayHello name="Dan" pref="Tokyo" valuenum={100} valuebool={true} valuearray={[1, 2, 3]} />
-    // const personal = {
-    //   sex: "male",
-    //   age: 21
-    // }
     return (
       <div>
         <h1>TODO App</h1>
-        <TodoInput
-          onClick={() => this.addTodo()}
-          onChange={e => this.onChange(e)}
-          input={this.state.input}
-        />
-        <TodoList tasks={this.state.tasks} />
+        <TodoInput {...this.props} />
+        <TodoList {...this.props} />
       </div>
-      // <React.Fragment>
-      //   <div className="Test">
-      //     {Dan}
-      //     <SayHello name="Bob" personal={personal} />
-      //     <SayHello name="Tanaka">Takagi</SayHello>
-      //     <SayBye name="Alice" ></SayBye>
-      //   </div>
-      //   <div>
-      //     xxx
-      //   </div>
-      // </React.Fragment>
     );
   }
 }
 
 class TodoInput extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
+
+  inputTaskAction(input) {
+    return {
+      type: "INPUT_TASK",
+      payload: {
+        input
+      }
+    }
+  }
+
+  addTaskAction(task) {
+    return {
+      type: "ADD_TASK",
+      payload: {
+        task
+      }
+    }
+  }
+
+  addTask(task) {
+    this.props.store.dispatch(this.addTaskAction(task));
+    this.props.store.dispatch(this.inputTaskAction(""));
+  }
+
   render() {
     return (
       <div>
         <input
           placeholder="新規TODOを入力してください"
-          onChange={e => this.props.onChange(e)}
-          value={this.props.input}
+          onChange={e => this.props.store.dispatch(this.inputTaskAction(e.target.value))}
+          value={this.props.store.getState().input}
         />
-        <button onClick={() => this.props.onClick()}>登録</button>
+        <button onClick={() => this.addTask(this.props.store.getState().input)}>登録</button>
       </div>
     );
   }
 }
 
 class TodoList extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
   render() {
-    const list = this.props.tasks.map(task => {
-      return <TodoItem {...task} key={task.id} />;
+    const list = this.props.store.getState().tasks.map((task, i) => {
+      return <TodoItem task={task} key={i} />;
     });
     return (
       <div>
@@ -96,7 +80,7 @@ class TodoList extends React.Component {
 
 class TodoItem extends React.Component {
   render() {
-    return <li>{this.props.title}</li>;
+    return <li key={this.props.key}>{this.props.task}</li>;
   }
 }
 
