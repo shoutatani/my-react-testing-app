@@ -1,8 +1,7 @@
 import { Component } from "react";
-import "./App.css";
 import PropTypes from "prop-types";
 
-class SayBye extends Component {
+export default class SayBye extends Component {
   render() {
     return <p>Bye, {this.props.name}</p>;
   }
@@ -38,4 +37,3 @@ SayHello.defaultProps = {
   pref: "Tokyo"
 };
 
-export default App;
