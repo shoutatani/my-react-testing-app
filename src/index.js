@@ -4,8 +4,8 @@ import { createStore } from "redux";
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 import tasksReducer from './reducers/tasks';
-import TodoApp from './components/TodoApp';
-
+import TodoApp from './containers/TodoApp';
+import { Provider } from 'react-redux';
 
 const store = createStore(
   tasksReducer,
@@ -13,7 +13,12 @@ const store = createStore(
 );
 
 function renderApp(store) {
-  ReactDOM.render(<TodoApp store={store}/>, document.getElementById('root'));
+  ReactDOM.render(
+    <Provider store={store}>
+      <TodoApp />
+    </Provider>,
+    document.getElementById('root')
+  );
 }
 
 store.subscribe(() => renderApp(store));
