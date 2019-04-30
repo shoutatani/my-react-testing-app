@@ -2,31 +2,10 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createStore } from "redux";
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
-import { create } from 'handlebars';
+import tasksReducer from './reducers/tasks';
+import TodoApp from './components/TodoApp';
 
-const initialState = {
-  tasks: [],
-  input: ""
-}
-
-function tasksReducer(state = initialState, action) {
-  switch (action.type) {
-    case 'ADD_TASK':
-      return {
-        ...state,
-        tasks: state.tasks.concat(action.payload.task)
-      };
-    case 'INPUT_TASK':
-      return {
-        ...state,
-        input: action.payload.input
-      };
-    default:
-      return state;
-  }
-}
 
 const store = createStore(
   tasksReducer,
@@ -34,7 +13,7 @@ const store = createStore(
 );
 
 function renderApp(store) {
-  ReactDOM.render(<App store={store}/>, document.getElementById('root'));
+  ReactDOM.render(<TodoApp store={store}/>, document.getElementById('root'));
 }
 
 store.subscribe(() => renderApp(store));
